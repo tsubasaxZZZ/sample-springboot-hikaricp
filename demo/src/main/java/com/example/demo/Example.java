@@ -18,6 +18,7 @@ public class Example {
         return "Hello World!";
     }
 
+    static HikariDataSource ds;
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Example.class, args);
 
@@ -25,16 +26,16 @@ public class Example {
         config.setJdbcUrl("jdbc:mariadb://localhost:3306/db");
         config.setUsername("root");
         config.setPassword("my-secret-pw");
-        config.setMaximumPoolSize(1);
+        config.setMaximumPoolSize(10);
         config.setConnectionTimeout(1000);
 
-        try (HikariDataSource ds = new HikariDataSource(config)) {
+        ds = new HikariDataSource(config);
+        //try (HikariDataSource ds = new HikariDataSource(config)) {
             System.out.println("Start con1");
             Connection con1 = ds.getConnection();
             System.out.println("Start con2");
             Connection con2 = ds.getConnection();
-
-        }
+        //}
     }
 
     public static void connectionTest(HikariDataSource ds) throws Exception {
